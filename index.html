@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roadmap</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0f11;
+      --surface: #16181c;
+      --border: #2a2d34;
+      --accent: #c8f060;
+      --accent-dim: #9ab83a;
+      --text: #e8eaf0;
+      --muted: #606470;
+      --card-hover: #1c1f25;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Subtle grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* Glow blob */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(200, 240, 96, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    header {
+      margin-bottom: 3.5rem;
+    }
+
+    .label {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 6vw, 3.2rem);
+      line-height: 1.05;
+      color: var(--text);
+      font-style: italic;
+    }
+
+    h1 span {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .subtitle {
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.03em;
+    }
+
+    /* Timeline nav */
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+
+    nav::before {
+      content: '';
+      position: absolute;
+      left: 1.5rem;
+      top: 1.5rem;
+      bottom: 1.5rem;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent) 0%, var(--border) 100%);
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1.1rem 1.25rem 1.1rem 0;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateX(4px);
+    }
+
+    .card:hover .card-inner {
+      background: var(--card-hover);
+      border-color: var(--accent);
+    }
+
+    .card:hover .num {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(200, 240, 96, 0.08);
+    }
+
+    .card:hover .arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .num {
+      flex-shrink: 0;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      z-index: 1;
+    }
+
+    .card-inner {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      transition: all 0.2s ease;
+    }
+
+    .card-label {
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .arrow {
+      font-size: 1rem;
+      color: var(--accent);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: all 0.2s ease;
+    }
+
+    footer {
+      margin-top: 3.5rem;
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-align: center;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    header { animation: fadeUp 0.5s ease both; }
+
+    .card:nth-child(1) { animation: fadeUp 0.5s 0.10s ease both; }
+    .card:nth-child(2) { animation: fadeUp 0.5s 0.18s ease both; }
+    .card:nth-child(3) { animation: fadeUp 0.5s 0.26s ease both; }
+    .card:nth-child(4) { animation: fadeUp 0.5s 0.34s ease both; }
+    .card:nth-child(5) { animation: fadeUp 0.5s 0.42s ease both; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <p class="label">Index</p>
+      <h1>Road<span>map</span></h1>
+      <p class="subtitle">Sélectionne une partie pour continuer.</p>
+    </header>
+
+    <nav>
+      <a class="card" href="roadmap1.html">
+        <div class="num">01</div>
+        <div class="card-inner">
+          <span class="card-label">Partie 1</span>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+      <a class="card" href="roadmap2.html">
+        <div class="num">02</div>
+        <div class="card-inner">
+          <span class="card-label">Partie 2</span>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+      <a class="card" href="roadmap3.html">
+        <div class="num">03</div>
+        <div class="card-inner">
+          <span class="card-label">Partie 3</span>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+      <a class="card" href="roadmap4.html">
+        <div class="num">04</div>
+        <div class="card-inner">
+          <span class="card-label">Partie 4</span>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+      <a class="card" href="roadmap5.html">
+        <div class="num">05</div>
+        <div class="card-inner">
+          <span class="card-label">Partie 5</span>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+    </nav>
+
+    <footer>roadmap1.html · … · roadmap5.html</footer>
+  </div>
+</body>
+</html>
