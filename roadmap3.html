@@ -15,8 +15,15 @@
       font-size: 0.9rem; color: #555;
     }
     .summary-bar strong { color: #222; }
-    #chart-container { padding: 1rem 1.5rem 0.5rem; background: #fff; border-top: 1px solid #ddd; }
-    #elevation-chart { max-height: 200px; }
+    #chart-container {
+      padding: 1rem 1.5rem 0.5rem; background: #fff; border-top: 1px solid #ddd;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+    }
+    #chart-wrapper {
+      min-width: max(100%, 800px);
+      height: 320px; position: relative;
+    }
+    #elevation-chart { width: 100% !important; height: 100% !important; }
     .chart-legend {
       display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: center;
       padding: 0.5rem 1.5rem 0.75rem; background: #fff; font-size: 0.8rem; color: #555;
@@ -25,6 +32,13 @@
     .cl-solid  { width: 18px; height: 3px; border-radius: 2px; }
     .cl-dot    { width: 10px; height: 10px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #ccc; }
     #stages-table { padding: 1rem 1.5rem 2rem; overflow-x: auto; }
+    @media (max-width: 640px) {
+      h1 { padding: 0.75rem 1rem 0.3rem; font-size: 1.2rem; }
+      .summary-bar { padding: 0.3rem 1rem 0.6rem; gap: 1rem; font-size: 0.82rem; }
+      #chart-container { padding: 0.5rem 0.25rem 0.25rem; }
+      .chart-legend { padding: 0.4rem 1rem 0.6rem; font-size: 0.75rem; gap: 0.8rem; }
+      #stages-table { padding: 0.5rem 0 1.5rem; }
+    }
     table { width: 100%; border-collapse: collapse; font-size: 0.86rem; background: #fff; }
     th {
       background: #2c3e50; color: #fff; padding: 0.6rem 0.75rem;
@@ -50,7 +64,9 @@
 </div>
 
 <div id="chart-container">
-  <canvas id="elevation-chart"></canvas>
+  <div id="chart-wrapper">
+    <canvas id="elevation-chart"></canvas>
+  </div>
 </div>
 <div class="chart-legend" id="chart-legend"></div>
 
@@ -163,7 +179,7 @@ new Chart(ctx, {
     }],
   },
   options: {
-    animation: false, responsive: true,
+    animation: false, responsive: true, maintainAspectRatio: false,
     interaction: { mode: 'index', intersect: false },
     scales: {
       x: { type: 'linear', title: { display: true, text: 'Distance (km)' }, ticks: { maxTicksLimit: 12 } },
